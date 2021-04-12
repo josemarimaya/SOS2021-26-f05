@@ -18,7 +18,7 @@ module.exports.info = (app) => {
 //Cargamos el loadInitialData antes que cualquier test para que no haya error
 
 module.exports.loadInitData = (app) => {
-    app.get(BASE_AIR_ROUTES_API_PATH + "/loadInitialData", (req,res) => {
+    app.get(BASE_CULTURABASE_API_PATH + "/loadInitialData", (req,res) => {
 
     
         cb = initJsonData.JsonInitialData;
