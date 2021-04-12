@@ -21,9 +21,9 @@ module.exports.loadInitData = (app) => {
     app.get(BASE_CULTURABASE_API_PATH + "/loadInitialData", (req,res) => {
 
     
-        cb = initJsonData.JsonInitialData;
+        r_culturaBASE = initJsonData.JsonInitialData;
         console.log("   -Hemos cargado exitosamente culturaBASE");
-        res.status(201).json(cb);
+        res.status(201).json(r_culturaBASE);
     });
 
 };
@@ -32,20 +32,20 @@ module.exports.loadInitData = (app) => {
 
 module.exports.httpCRUD = (app) => {
 
-    //Yequest de CRUD básicas para CULTURABASE
+    //Request de CRUD básicas para CULTURABASE
     //GET
     app.get(BASE_CULTURABASE_API_PATH, (req,res) => {
         
         res
         .status(200)
-        .send(JSON.stringify(cb,null,2));
+        .send(JSON.stringify(r_culturaBASE,null,2));
     });
 
     //POST
     app.post(BASE_CULTURABASE_API_PATH, (req,res) => {
         var newResource = req.body;
         console.log(`   Hemos añadido un recurso nuevo <${JSON.stringify(newResource,null,2)}>`);
-        cb.push(newResource);
+        r_culturaBASE.push(newResource);
 
         res.sendStatus(201);
     });
@@ -59,7 +59,7 @@ module.exports.httpCRUD = (app) => {
     //DELETE
     app.delete(BASE_CULTURABASE_API_PATH,(req,res) => {
         
-        cb = [];
+        r_culturaBASE = [];
         console.log(`  Database deleted`);
         res.sendStatus(200);
     });
@@ -72,8 +72,8 @@ module.exports.httpCRUD = (app) => {
 
         var ls_data = [];
 
-        for (var i = 0 ; i < cb.length; i++){
-            if(cb[i].district == urlDistrict){
+        for (var i = 0 ; i < r_culturaBASE.length; i++){
+            if(r_culturaBASE[i].district == urlDistrict){
                 
                 ls_data.push(cb[i]);
                 
@@ -101,9 +101,9 @@ module.exports.httpCRUD = (app) => {
         
 
         for (var i = 0 ; i < cb.length; i++){
-            if(cb[i].district == urlDistrict && cb[i].year == urlYear){
+            if(r_culturaBASE[i].district == urlDistrict && cb[i].year == urlYear){
                 
-                res_data = cb[i];
+                res_data = r_culturaBASE[i];
                 resourceFinded = true;
                 
             }
@@ -129,10 +129,10 @@ module.exports.httpCRUD = (app) => {
     app.delete(BASE_CULTURABASE_API_PATH + "/:urlDistrict", (req,res) => {
         var {urlDistrict} = req.params;
 
-        const deleted = cb.find(resource => resource.district == urlDistrict );
+        const deleted = r_culturaBASE.find(resource => resource.district == urlDistrict );
 
         if(deleted){
-            cb = air_routes_aux.filter(resource => resource.district != urlDistrict);
+            r_culturaBASE = r_culturaBASE.filter(resource => resource.district != urlDistrict);
             res.status(200).json({ message: `The resource with district : <${urlDistrict}> was deleted`})
         }else{
             res.status(404).json({ message: "District you are looking for does not exist "})
@@ -145,10 +145,10 @@ module.exports.httpCRUD = (app) => {
         var {urlDistrict} = req.params;
         var {urlYear} = req.params;
 
-        const deleted = cb.find(resource => (resource.district == urlDistrict)&&(resource.year == urlYear));
+        const deleted = r_culturaBASE.find(resource => (resource.district == urlDistrict)&&(resource.year == urlYear));
 
         if(deleted){
-            cb = cb.filter(resource => (resource.district != urlDistrict)||(resource.district == urlDistrict && resource.year != urlYear));
+            r_culturaBASE = r_culturaBASE.filter(resource => (resource.district != urlDistrict)||(resource.district == urlDistrict && resource.year != urlYear));
             res.status(200).json({ message: `The resources with district : <${urlDistrict}> and year: <${urlYear}> were deleted`})
         }else{
             res.status(404).json({ message: "The resource you are looking for does not exist "})
@@ -160,7 +160,7 @@ module.exports.httpCRUD = (app) => {
         var {urlDistrict} = req.params;
         var {urlYear} = req.params;
         
-        const index = cb.findIndex(resource => (resource.district == urlDistrict)&&(resource.year == urlYear));
+        const index = r_culturaBASE.findIndex(resource => (resource.district == urlDistrict)&&(resource.year == urlYear));
 
         if(index == -1){
             res.status(404).json({ message: "The resource you are looking for does not exist "});
