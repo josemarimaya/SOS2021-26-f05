@@ -120,7 +120,7 @@ module.exports.httpCRUD = (app) => {
 
 
     app.post(BASE_AIR_ROUTES_API_PATH + "/:urlDistrict/:urlYear", (req,res) => {
-        console.log(`Error: Use post method at element of collector `);
+        console.log(`   -airRoutes API: Error: Use post method at element of collector `);
         res.sendStatus(405);
     });
 
